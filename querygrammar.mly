@@ -7,11 +7,15 @@
  
 
 %{
+(*
 exception Undefined_value of string
+*)
 
 open Querytypes
 open Logentry
+(*
 let string_unquote s = String.sub s 1 (String.length s -2)
+*)
 
 let make_comp sel const cmp r =
   cmp (sel r) const
@@ -50,8 +54,10 @@ let like_test contents like_re =
     it assumes the value -1 for it's conversion!
 (This behavior might be changed later.)
 *)
+(*
 let savicmp x y =
   compare ( try int_of_string x with _ -> -1) ( try int_of_string y with _ -> -1)
+*)
 
 let savi_equal     x y =  ( try int_of_string x with _ -> -1)  =  ( try int_of_string y with _ -> -1)
 let savi_not_equal x y =  not (( try int_of_string x with _ -> -1)  =  ( try int_of_string y with _ -> -1))

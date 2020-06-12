@@ -1,5 +1,5 @@
 (* ------------------ *)
- let version = "0.9.6_4"
+ let version = "0.9.8"
 (* ------------------ *)
 
 (*
@@ -45,7 +45,7 @@ let query() =
 (* ------------------------------------------------------------------------------------ *)
 let get_widths li =
  let width = List.length ( (List.hd li )) in
- let maxvals = Array.create width 0 in
+ let maxvals = Stdlib.Array.make width 0 in
 
  let rec trav li idx = match li with
        []     -> ()
@@ -188,12 +188,12 @@ let rec loop() =
                                       (*"\begin{tabular}{ll}"*)
                                       (* "|l|l|l|" *)
                                       let n = List.length (List.hd sorted_data) in
-                                      let tabdef = ref  (String.make (2 * n + 1) '|' ) in
+                                      let tabdef = (Bytes.make (2 * n + 1) '|' ) in
                                       for idx = 1 to  n
                                       do
-                                        !tabdef.[idx*2-1] <- 'l'
+                                        Bytes.set tabdef (idx*2-1) 'l'
                                       done;
-                                      output_string outchannel ( "\\begin{tabular}{" ^ !tabdef ^ "}\\hline\n");
+                                      output_string outchannel ( "\\begin{tabular}{" ^ (Bytes.to_string tabdef) ^ "}\\hline\n");
 
                                       List.iter (fun p -> let ltxstrlist = List.map string_to_latexstring p in (* LaTeX-Quotings! *)
                                                           Printf.fprintf outchannel "%s\\\\\\hline\n" (String.concat "&" ltxstrlist)

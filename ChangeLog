@@ -1,3 +1,10 @@
+From 0.9.6_4 t0 0.9.8
+---------------------
+Building with OCamlMakefile.
+Code changed, so that it compiles with OCaml 4.10.0.
+
+
+
 From 0.9.6 to 0.9.6_4
 ---------------------
 
