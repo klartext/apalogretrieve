@@ -1,0 +1,49 @@
+#!/bin/bash
+
+#
+#  written by Oliver Bandel. => Urheber / COpyright Oliver Bandel
+#
+#  This is free software and it can be redistributed under the
+#  General Public License (GPL) version 2.
+#
+
+
+rm -f *.cm? # alte Compilate weg hauen!
+rm -f *.mli # alte Interfaces weg hauen! ### soll später weg!
+
+## ocamlopt -c types.ml && \
+
+#
+ocamlopt -i logentry.ml > logentry.mli  && \
+ocamlopt -c logentry.mli && \
+ocamlopt -c logentry.ml && \
+#
+####
+ocamlopt -c querytypes.ml
+#
+ocamllex querylex.mll && \
+ocamlyacc -v querygrammar.mly && \
+#
+ocamlopt -c querygrammar.mli && \
+#
+ocamlopt -c querylex.ml && \
+ocamlopt -c querygrammar.ml && \
+####
+#
+
+ocamlopt -c compressed.ml && \
+
+  ocamllex lexcombinedlog.mll && \
+  ocamlopt -c lexcombinedlog.ml && \
+ocamlopt -c readcombinedlog.ml && \
+
+ocamlc -c datetime.ml && \
+
+### ocamlopt -c query.ml && \
+ocamlopt -c main.ml && \
+#
+#
+
+# ocamlopt -o apalog   str.cmxa unix.cmxa  logentry.cmx querylex.cmx querygrammar.cmx lexcombinedlog.cmx readcombinedlog.cmx query.cmx main.cmx
+ocamlopt -o apalog   str.cmxa  unix.cmxa logentry.cmx querylex.cmx querygrammar.cmx compressed.cmx lexcombinedlog.cmx readcombinedlog.cmx main.cmx
+

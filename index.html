@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+  <head>
+    <title>Oliver Bandel's Tool apalogretrieve (apalog)</title>
+    <link rel="stylesheet" type="text/css" href="ob-sw.css" media="all">
+  </head>
+<body bgcolor="ivory" text="#000000">
+<a name="top"></a>
+   
+<a href="http://www.first.in-berlin.de/">Home</a><hr>
+<a href="..">Parent Directory</a><hr>
+
+<H1> apalog (apalogretrieve) </H1>
+<!--
+<small>
+current version: (...)
+</small>
+-->
+
+
+<H2><a name="overview"></a>Overview</H2>
+<p>
+The program
+
+        <a href="/software/tools/apalogretrieve/apalogretrieve-0-9-6_2.tgz">apalogretrieve (binary-name: apalog)</a>
+retrieves data from an Apache logfile with a syntax,
+that is derived from (and a subset of) the SQL language.
+</p>
+<p>
+SQL is used for relational databases normally.
+But here we use a SQL-like language (SQL-subset)
+for Webserver-logfile-queries.
+</p>
+<p>
+There are a lot of possibilities to retrieve data from
+an apache logfile.
+<br>
+To have an overview on the requests (with graphics support also) very quickly,
+you can use <b>webalizer</b>. It's a nice tool but as every tool it has not
+only advantages but also disadvantages.
+<br>
+<b>Webalizer does averaging. For getting detailed infromation in certain queries, this is a bad choice.</b>
+</p>
+<p>
+You could switch back to <b>grep</b>, <b>awk</b> or <b>Perl</b> or
+use specialzed tools, which you implement in a common programming language,
+which does some specialized analyzes.
+<br>
+But <b>grep</b> has some limitations here, because it <b>does string matching linewise,
+not on certain fields. awk has no domain-specific named fields</b>.
+Even if you can use associative arrays in awk, which makes things easier to handle,
+there is no predefined name for the logentry-fields. Also you may get problems with
+parsing the data, because you have to find out the appropriate way to select the
+fields.
+<br>
+apalogretrieve brings you specific names for each field.
+
+And if you want to use specialized tools,
+they might be to narrow in focus,
+even if possibly good in what they are intended to do.
+</p>
+<p>
+If you want to make <b>concise, but flexible queries</b>,
+wether webalizer nor grep nor awk nor specialized tools might be
+the best choice, IMHO.
+</p>
+<p>
+What apalogretrieve makes possible here is to <b>retrieve the
+fields by their name</b> and <b>use filters</b> (WHERE-clause)
+as well as <b>boolean operators</b> (AND, OR, NOT).
+You also have a simple regular expression mechanism,
+like the <b>like-operator</b> from SQL.
+<br>
+IMHO this makes data retrieval in lookups for some special
+entries very convenient.
+</p>
+
+<H3>Application Examples</H3>
+During development of apastat (a logfile analyser for user-statistics) I nedded
+to select certain fields for looking up the data in logfiles, so that I can
+check the functionality of the analyser.
+<br>For that, apalogretrieve is an invaluable tool!
+
+<hr>
+
+
+
+<H2><a name="news"></a>News from apalog (31th January 2008):</H2>
+
+  <ul>
+      <li>  <b>31/01/2008:</b>  New Release: <b> version 0-9-6_4</b> is available.
+             Changed Lexer and Parser for the logfile as well as for the REPL-loop.
+             <ul>
+             <li> Logfile-Lexer corrected to read correctly even strange files.
+             <li> Command-Parser: uses now "ORDER BY" instead of "GROUP BY" (the latter was,
+             when following SQL instead of not common sense /natural language ;-) a misnomer).
+             </ul>
+
+
+      <li>  <b>09/01/2008:</b>  New Release: <b> version 0-9-6_2</b> is available.
+            LaTeX-Converter completed, and unnecessary prints in align-output removed.
+            <a href="ChangeLog">ChangeLog</a>
+
+       <li> <b>08/01/2008:</b> 
+            New Release: <b> version 0-9-6</b> is now available!
+            <a href="ChangeLog">ChangeLog</a>
+         
+        
+       <b> 08/01/2008</b>
+            Apalog has always worked on the <b>COMBINED logfile format</b>,
+            <br>
+            not on the COMMON logfile format.
+            Sorry for the misnomer in the documentation!
+            <br>
+            But I grabbed out only the parts of the common logfile format and ignored
+            the both (very seldom used) fields logname and userid.
+            <br>
+            <b>Now</b> I grab all parts out of the logfile, <b>not</b> ignoring
+            logname and userid.
+            <br>
+            And I furthermore work on the combined logfile format like before.
+            The combined logfile format is a very common format (hence
+            my misnomer).
+            
+       <li> <b>07/01/2008</b>
+            Apalog (non-released version) can now <b>read gzip-files</b> transparently.<br>
+            Aligned ASCII-output also is ready now.
+            
+       <li> <b>06/01/2008</b>
+            Apalog (non-released version) has now the possibility to <b>redirect the output to
+            a file</b>.
+            <br> It also now has the possibility to output the results as a
+            <b>HTML-Table</b>.  The release will follow later; I first want to implement
+            LaTeX-output also, as well as aligned ASCII-output.
+            
+       <li> <b>24/11/2007</b>
+            Release 0.9.4: now <b>GROUP BY</b> is implemented! :)<br>
+            Some other changes also.
+            
+       <li> <b>09/08/2007</b>
+            New release: 0.9.2 has now the WHERE-clause filter-condition inside the
+            logfile lexer, which means less memory usage, if you read large logfiles.
+            
+  </ul>
+            
+<hr>
+
+
+<H2><a name="how_to_use"></a>How to Use apalog</H2>
+
+<H3>Keywords</H3>
+
+<H4>Implemented SQL-statements (subset of SQL)</H4>
+<ul>
+  <li>SELECT</li>
+  <li>FROM</li>
+  <li>WHERE</li>
+  <li>GROUP</li>
+  <li>BY</li>
+  <li>LIKE</li>
+</ul>
+
+
+<H4>Other Query-Keywords</H4>
+<ul>
+  <li>AND</li>
+  <li>OR</li>
+  <li>NOT</li>
+</ul>
+
+
+
+<H4>Field-Names</H4>
+<ul>
+  <li>host</li>
+  <li>lname</li>
+  <li>user</li>
+  <li>date</li>
+  <li>request</li>
+  <li>status</li>
+  <li>size</li>
+  <li>referrer</li>
+  <li>client</li>
+</ul>
+
+
+
+
+<H4>Other Keywords</H4>
+<ul>
+  <li>quit</li>
+  <li>format</li>
+  <li>output</li>
+  <li>default</li>
+  <li>align</li>
+  <li>html</li>
+  <li>latex</li>
+</ul>
+
+
+
+<H2>Usage Helper</H2>
+<p>
+apalog has no line-editing functionality implemented.  <br>
+If you want to have this feature, please use the
+<a href="ftp://ftp.inria.fr/INRIA/Projects/cristal/Daniel.de_Rauglaudre/Tools/">ledit</a>-tool. :)
+(It's also written in OCaml :))
+<br>
+<a href="http://packages.debian.org/stable/editors/ledit">Debian-package for ledit</a>
+</p>
+
+
+<H3>Usage Example</H3>
+<p>
+<b>
+<H4>Example 1</H4>
+SELECT host,date FROM "apache-combined.log" where size > 2000;<br>
+<H4>Example 2</H4>
+SELECT host,date,client,referrer FROM "apache-combined.log" where host = "foobar.host.net";
+</b>
+</p>
+
+
+
+<H4>Example 3:</H4>
+
+<p>
+<b>The task:</b> Look for all entries with domainnames ending in ".it", ignoring  the entries for icons ("/icons/back.gif",  "/icons/folder.gif", "/icons/blank.gif",  "/favicon.ico" and so on)
+</p>
+
+# select host,date,request,referrer from "access.log" where host like "%.it" AND (NOT request like  "%icon%");
+
+<H4>Example 4: There is no "DISTINCT" clause - example on that?</H4>
+Invoke apalog like here:<br>
+$ cat | apalog | sort -u<br>
+
+and then for example type this command:
+
+<br>select referrer from "access.log"; quit;<br>
+
+Then you get all referrer-entries reported once.
+
+
+<a name="disclaimer"></a>
+<H2>Necessary to mention ("disclaimer")</H2>
+<ul>
+  <li> I should also mention: <b>the date is compared string-like; it is NOT
+       a true comparison on the dates (at least not in version 0.9.4)</b>.<br>
+       I may change this in later releases (as I didn't use this feature
+       often, it was not really necessry for me;
+       implementing "like" was more interesting for me, so this was my priority.)
+
+  <li> Size of log-entries with size == "-" are handled as
+       size = -1. This means, if you wish to look for entries
+       that have "-" entries,look for size < 0.<br>
+       I may later change this to 0.
+</ul>
+
+
+
+
+
+<H2>Download</H2>
+
+
+        <a href="/software/tools/apalogretrieve/apalogretrieve-0-9-6_2.tgz">apalogretrieve</a>
+(License: GPL)
+
+
+
+
+
+<H2>Implementation</H2>
+The language of choice is <a href="http://www.ocaml.org">OCaml</a>,
+the ultimative language for high-level programming.
+
+<p>
+<small>
+If you want to give feedback (feature wishes, bug report or if you like the tool
+and where you use it), do not hesitate to contact me.
+</small>
+</p>
+
+
+<hr>
+Mail: oliver _at_ first.in-berlin.de
+<hr>
+
+<small>
+$Date: 2008-01-31 19:19:27 +0100 (Do, 31 Jan 2008) $
+</small>
+
+
+<div id="menue">
+  <div>
+  <ul>
+    <li><a href="#top">Top of this page</a></li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#how_to_use">How To Use</a></li>
+    <li><a href="#disclaimer">Disclaimer</a></li>
+    <li><a href="#download">Download</a></li>
+  </ul>
+  </div>
+  <div class="revision">
+  <small>
+  <small>
+  $Date: 2008-01-31 19:19:27 +0100 (Do, 31 Jan 2008) $
+  </small>
+  </small>
+  </div>
+</div>
+
+
+
+ <div class="emptyend"> </div>
+
+
+</body>
+</html>
