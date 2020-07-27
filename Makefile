@@ -5,7 +5,7 @@ all: native-code
 
 #SOURCES :=  cli.ml tools.ml parsetreetypes.ml scriptparser.mly scriptlexer.mll parsers.ml network.ml evaluate.ml main.ml
 
-SOURCES := unixbindings.c logentry.ml compressed.ml lexcombinedlog.mll readcombinedlog.ml querygrammar.mly querytypes.ml querylex.mll   datetime.ml  main.ml
+SOURCES := unixbindings.c external.ml logentry.ml compressed.ml lexcombinedlog.mll readcombinedlog.ml querygrammar.mly querytypes.ml querylex.mll   datetime.ml  main.ml
 
 
 PACKS := pcre netstring netsys netclient nettls-gnutls xmlm yojson netunidata
