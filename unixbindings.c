@@ -25,9 +25,6 @@ value unixtime_of_string( value datetime_string, value format_string )
   char* timestring = String_val(datetime_string);
   memset(&timestruct, 0, sizeof(struct tm));
 
-  printf("Erster Parameter:  %s\n", String_val(datetime_string));
-  printf("Zweiter Parameter: %s\n", String_val(format_string));
-
   rest = strptime(String_val(datetime_string), String_val(format_string), &timestruct);
   if( rest == NULL )
   {
@@ -45,7 +42,6 @@ value unixtime_of_string( value datetime_string, value format_string )
   }
 
   time = mktime(&timestruct);
-  //printf("Zeitwert: %ld\n", time);
 
 
   CAMLreturn( Val_long(time) );
