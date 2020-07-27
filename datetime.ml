@@ -25,6 +25,9 @@ let unixepoche_of_datestring datestring =
 
 
 let compare d1 d2 =
-  let diff = unixepoche_of_datestring d1 - unixepoche_of_datestring d2 in
+  let diff =
+    try unixepoche_of_datestring d1 - unixepoche_of_datestring d2
+    with _ -> compare d1 d2 (* on exception use compare as fallback *)
+  in
   if diff < 0 then D1_before_D2 else if diff = 0 then D1_equals_D2 else D1_after_D2
 
