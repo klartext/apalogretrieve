@@ -17,7 +17,14 @@
 
 *)
 
+type datecomp = D1_before_D2 | D1_equals_D2 | D1_after_D2
 
 
-let compare d1 d2 = ()
+let unixepoche_of_datestring datestring =
+  External.Strptime.unixtime_of_string datestring "%d/%h/%Y:%H:%M:%S %z"
+
+
+let compare d1 d2 =
+  let diff = unixepoche_of_datestring d1 - unixepoche_of_datestring d2 in
+  if diff < 0 then D1_before_D2 else if diff = 0 then D1_equals_D2 else D1_after_D2
 
