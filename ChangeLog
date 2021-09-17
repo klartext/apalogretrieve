@@ -1,3 +1,10 @@
+From  0.9.8 to 1.0.0
+--------------------
+1.0.0 is the same as 2021-09-12.
+Updated the stuff to compile with OCaml 4.12
+and also added the time-comparison.
+
+
 From 0.9.6_4 t0 0.9.8
 ---------------------
 Building with OCamlMakefile.
